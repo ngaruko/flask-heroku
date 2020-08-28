@@ -3,8 +3,7 @@ import json, plotly
 from flask import render_template
 from wrangling_scripts.wrangle_data import return_figures
 ##
-import json
-import plotly
+
 import pandas as pd
 
 from nltk.stem import WordNetLemmatizer
@@ -15,6 +14,28 @@ from flask import render_template, request, jsonify
 from plotly.graph_objs import Bar 
 import joblib
 from sqlalchemy import create_engine
+
+def tokenize(text):
+    tokens = word_tokenize(text)
+    lemmatizer = WordNetLemmatizer()
+
+    clean_tokens = []
+    for tok in tokens:
+        clean_tok = lemmatizer.lemmatize(tok).lower().strip()
+        clean_tokens.append(clean_tok)
+
+    return clean_tokens
+
+# load data
+engine = create_engine('sqlite:///../data/DisasterResponse.db')
+df = pd.read_sql_table('messages', engine)
+#print(df.columns[4:])
+#
+# load model
+model = joblib.load("../models/classifier.pkl")
+
+
+
 
 @app.route('/')
 @app.route('/index')
