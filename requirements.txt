@@ -43,4 +43,3 @@ wrapt==1.12.1
 
 
 
-pip3 install flask, wrangling_scripts.wrangle_data, nltk 
